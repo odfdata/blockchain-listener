@@ -73,136 +73,136 @@ export class BlockchainListener extends Construct {
     super(scope, id);
     // create a new Event Bridge Bus in which the ECS container is allowed to send events
     this.eventBus = new events.EventBus(
-        this,
-        'BlockchainListenerEventBus',
-        {
-          eventBusName: 'blockchain-listener-event-bus',
-        },
+      this,
+      'BlockchainListenerEventBus',
+      {
+        eventBusName: 'blockchain-listener-event-bus',
+      },
     );
     this.ecsLogGroup = new logs.LogGroup(
-        this,
-        'BlockchainListenerLogGroup',
-        {
-          logGroupName: 'blockchain-listener-log-group',
-          retention: logs.RetentionDays.TWO_WEEKS,
-          removalPolicy: RemovalPolicy.DESTROY,
-        },
+      this,
+      'BlockchainListenerLogGroup',
+      {
+        logGroupName: 'blockchain-listener-log-group',
+        retention: logs.RetentionDays.TWO_WEEKS,
+        removalPolicy: RemovalPolicy.DESTROY,
+      },
     );
 
     this.vpc = new ec2.Vpc(
-        this,
-        'BlockchainListenerVPC',
-        {
-          vpcName: 'blockchain-listener-vpc',
-          ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
-          subnetConfiguration: [
-            {
-              subnetType: ec2.SubnetType.PUBLIC,
-              name: 'blockchain-listener-subnet',
-              mapPublicIpOnLaunch: true,
-            },
-          ],
-        },
+      this,
+      'BlockchainListenerVPC',
+      {
+        vpcName: 'blockchain-listener-vpc',
+        ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
+        subnetConfiguration: [
+          {
+            subnetType: ec2.SubnetType.PUBLIC,
+            name: 'blockchain-listener-subnet',
+            mapPublicIpOnLaunch: true,
+          },
+        ],
+      },
     );
     this.securityGroup = new ec2.SecurityGroup(
-        this,
-        'BlockchainListenerSecurityGroup',
-        {
-          vpc: this.vpc,
-          securityGroupName: 'blockchain-listener-security-group',
-          description: 'Security group used by the Blockchain Listener',
-          allowAllOutbound: true,
-        },
+      this,
+      'BlockchainListenerSecurityGroup',
+      {
+        vpc: this.vpc,
+        securityGroupName: 'blockchain-listener-security-group',
+        description: 'Security group used by the Blockchain Listener',
+        allowAllOutbound: true,
+      },
     );
 
     // create the cluster in which the fargate task will run in
     this.ecsCluster = new ecs.Cluster(
-        this,
-        'BlockchainListenerECSCluster',
-        {
-          enableFargateCapacityProviders: true,
-          clusterName: 'blockchain-listener-ecs-cluster',
-          containerInsights: false,
-        },
+      this,
+      'BlockchainListenerECSCluster',
+      {
+        enableFargateCapacityProviders: true,
+        clusterName: 'blockchain-listener-ecs-cluster',
+        containerInsights: false,
+      },
     );
     // the IAM role used by the ecs task while running
     this.ecsTaskDefinitionIAMRole = new iam.Role(
-        this,
-        'BlockchainListenerECSTaskDefinitionIamRole',
-        {
-          assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
-          description: 'IAM Role used by the Blockchain Listener ECS Task Definition to listen to blockchain ' +
+      this,
+      'BlockchainListenerECSTaskDefinitionIamRole',
+      {
+        assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+        description: 'IAM Role used by the Blockchain Listener ECS Task Definition to listen to blockchain ' +
               'events and send events to the correct Event Bridge Bus',
-          path: '/',
-          roleName: 'blockchain-listener-ecs.iam-role',
-        },
+        path: '/',
+        roleName: 'blockchain-listener-ecs.iam-role',
+      },
     );
     // the IAM role used by the ecs task while starting
     this.ecsTaskDefinitionExecutionIAMRole = new iam.Role(
-        this,
-        'BlockchainListenerECSTaskDefinitionExecutionIamRole',
-        {
-          assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
-          description: "IAM Role used as execution role by the Blockchain Role. It's the role used to start the task",
-          path: '/',
-          managedPolicies: [
-            iam.ManagedPolicy.fromManagedPolicyArn(
-                this,
-                'BlockchainListenerECSTaskExecutionRolePolicy',
-                'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy',
-            ),
-          ],
-          roleName: 'blockchain-listener-ecs-task-task-execution.iam-role',
-        },
+      this,
+      'BlockchainListenerECSTaskDefinitionExecutionIamRole',
+      {
+        assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+        description: "IAM Role used as execution role by the Blockchain Role. It's the role used to start the task",
+        path: '/',
+        managedPolicies: [
+          iam.ManagedPolicy.fromManagedPolicyArn(
+            this,
+            'BlockchainListenerECSTaskExecutionRolePolicy',
+            'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy',
+          ),
+        ],
+        roleName: 'blockchain-listener-ecs-task-task-execution.iam-role',
+      },
     );
     // the ecs task definition containing cpu architecture, cpu and memory
     this.ecsTaskDefinition = new ecs.TaskDefinition(
-        this,
-        'BlockchainListenerTaskDefinition',
-        {
-          cpu: '256',
-          memoryMiB: '512',
-          runtimePlatform: {
-            cpuArchitecture: props.cpuArchitecture,
-            operatingSystemFamily: ecs.OperatingSystemFamily.LINUX,
-          },
-          compatibility: ecs.Compatibility.FARGATE,
-          networkMode: ecs.NetworkMode.AWS_VPC,
-          family: 'blockchain-listener-ecs-task-definition',
-          taskRole: this.ecsTaskDefinitionIAMRole,
-          executionRole: this.ecsTaskDefinitionExecutionIAMRole,
+      this,
+      'BlockchainListenerTaskDefinition',
+      {
+        cpu: '256',
+        memoryMiB: '512',
+        runtimePlatform: {
+          cpuArchitecture: props.cpuArchitecture,
+          operatingSystemFamily: ecs.OperatingSystemFamily.LINUX,
         },
+        compatibility: ecs.Compatibility.FARGATE,
+        networkMode: ecs.NetworkMode.AWS_VPC,
+        family: 'blockchain-listener-ecs-task-definition',
+        taskRole: this.ecsTaskDefinitionIAMRole,
+        executionRole: this.ecsTaskDefinitionExecutionIAMRole,
+      },
     );
     // add the container with the docker image built locally
     this.ecsTaskDefinition.addContainer(
-        'BlockchainListenerECSTaskDefinitionContainer',
-        {
-          image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, props.containerImageDirectory)),
-          containerName: 'blockchain-listener-ecs-container',
-          logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
-        },
+      'BlockchainListenerECSTaskDefinitionContainer',
+      {
+        image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, props.containerImageDirectory)),
+        containerName: 'blockchain-listener-ecs-container',
+        logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
+      },
     );
     // create a new ecs service to keep 1 instance always running
     new ecs.FargateService(
-        this,
-        'BlockchainListenerECSService',
-        {
-          serviceName: 'blockchain-listener-ecs-service',
-          cluster: this.ecsCluster,
-          taskDefinition: this.ecsTaskDefinition,
-          desiredCount: 0,
-          platformVersion: ecs.FargatePlatformVersion.LATEST,
-          assignPublicIp: true,
-          minHealthyPercent: 100,
-          maxHealthyPercent: 200,
-          vpcSubnets: {
-            subnets: this.vpc.publicSubnets,
-            onePerAz: true,
-          },
-          securityGroups: [
-            this.securityGroup,
-          ],
+      this,
+      'BlockchainListenerECSService',
+      {
+        serviceName: 'blockchain-listener-ecs-service',
+        cluster: this.ecsCluster,
+        taskDefinition: this.ecsTaskDefinition,
+        desiredCount: 0,
+        platformVersion: ecs.FargatePlatformVersion.LATEST,
+        assignPublicIp: true,
+        minHealthyPercent: 100,
+        maxHealthyPercent: 200,
+        vpcSubnets: {
+          subnets: this.vpc.publicSubnets,
+          onePerAz: true,
         },
+        securityGroups: [
+          this.securityGroup,
+        ],
+      },
     );
   }
 }
