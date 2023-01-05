@@ -1,5 +1,5 @@
 {
-  "name": "blockchain-listener",
+  "name": "@odfdata/blockchain-listener",
   "description": "The AWS Constructor to create a Blockchain Listener using AWS Fargate and Event Bridge",
   "repository": {
     "type": "git",
@@ -30,8 +30,8 @@
     "projen": "npx projen"
   },
   "author": {
-    "name": "Federico Castelli",
-    "email": "fc@oracleofde.fi",
+    "name": "ODF Data",
+    "email": "it@odfdata.com",
     "organization": false
   },
   "devDependencies": {
