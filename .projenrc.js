@@ -1,4 +1,5 @@
 const { awscdk } = require('projen');
+const { Stability } = require('projen/lib/cdk');
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'ODF Data',
   authorUrl: 'https://odfdata.com',
@@ -9,8 +10,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl: 'git@github.com:odfdata/blockchain-listener.git',
   authorOrganization: true,
   releaseToNpm: true,
+  npmAccess: 'public',
   description: 'The AWS Constructor to create a Blockchain Listener using AWS Fargate and Event Bridge',
-  stability: 'experimental',
+  stability: Stability.EXPERIMENTAL,
   gitignore: ['.idea'],
 });
 project.synth();
