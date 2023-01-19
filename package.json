@@ -3,7 +3,7 @@
   "description": "The AWS Constructor to create a Blockchain Listener using AWS Fargate and Event Bridge",
   "repository": {
     "type": "git",
-    "url": "git@github.com:odfdata/blockchain-listener.git"
+    "url": "https://github.com/odfdata/blockchain-listener.git"
   },
   "scripts": {
     "build": "npx projen build",
@@ -19,13 +19,11 @@
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
     "post-compile": "npx projen post-compile",
-    "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
     "test": "npx projen test",
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
-    "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
@@ -52,7 +50,6 @@
     "jsii-docgen": "^7.0.195",
     "jsii-pacmak": "^1.73.0",
     "json-schema": "^0.4.0",
-    "npm-check-updates": "^16",
     "projen": "^0.66.3",
     "standard-version": "^9",
     "ts-jest": "^27",
@@ -63,6 +60,7 @@
     "constructs": "^10.0.5"
   },
   "keywords": [
+    "awscdk",
     "cdk"
   ],
   "main": "lib/index.js",
