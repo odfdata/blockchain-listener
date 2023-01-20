@@ -17,6 +17,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: Stability.EXPERIMENTAL,
   gitignore: ['.idea/'],
   keywords: ['awscdk', 'cdk'],
-  depsUpgrade: false
+  depsUpgrade: false,
 });
 project.synth();
