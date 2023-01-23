@@ -190,6 +190,7 @@ const blockchainListenerProps: BlockchainListenerProps = { ... }
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.cidrBlock">cidrBlock</a></code> | <code>string</code> | The range of IP addresses in which the ECS Fargate Task will be put in. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.containerImageDirectory">containerImageDirectory</a></code> | <code>string</code> | The directory in which the Docker file is placed. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.cpuArchitecture">cpuArchitecture</a></code> | <code>aws-cdk-lib.aws_ecs.CpuArchitecture</code> | The CPU architecture you want to use for your Fargate Task. |
+| <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.environmentVariables">environmentVariables</a></code> | <code>any</code> | *No description.* |
 
 ---
 
@@ -231,6 +232,16 @@ public readonly cpuArchitecture: CpuArchitecture;
 The CPU architecture you want to use for your Fargate Task.
 
 Remember that it needs to be the same one of your building environment (pipeline or local machine)
+
+---
+
+##### `environmentVariables`<sup>Optional</sup> <a name="environmentVariables" id="@odfdata/blockchain-listener.BlockchainListenerProps.property.environmentVariables"></a>
+
+```typescript
+public readonly environmentVariables: any;
+```
+
+- *Type:* any
 
 ---
 
