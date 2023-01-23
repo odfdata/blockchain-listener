@@ -1,12 +1,5 @@
 import * as path from 'path';
-import {
-  aws_events as events,
-  aws_logs as logs,
-  aws_ec2 as ec2,
-  aws_iam as iam,
-  aws_ecs as ecs,
-  RemovalPolicy,
-} from 'aws-cdk-lib';
+import { aws_ec2 as ec2, aws_ecs as ecs, aws_events as events, aws_iam as iam, aws_logs as logs, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 /**
@@ -35,6 +28,8 @@ export interface BlockchainListenerProps {
    * @default src/
    */
   readonly containerImageDirectory: string;
+
+  readonly environmentVariables?: any;
 }
 
 export class BlockchainListener extends Construct {
@@ -179,6 +174,7 @@ export class BlockchainListener extends Construct {
       {
         image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, props.containerImageDirectory)),
         containerName: 'blockchain-listener-ecs-container',
+        environment: props.environmentVariables,
         logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
       },
     );
