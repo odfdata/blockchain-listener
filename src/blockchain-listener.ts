@@ -70,15 +70,12 @@ export class BlockchainListener extends Construct {
     this.eventBus = new events.EventBus(
       this,
       'BlockchainListenerEventBus',
-      {
-        eventBusName: 'blockchain-listener-event-bus',
-      },
+      {},
     );
     this.ecsLogGroup = new logs.LogGroup(
       this,
       'BlockchainListenerLogGroup',
       {
-        logGroupName: 'blockchain-listener-log-group',
         retention: logs.RetentionDays.TWO_WEEKS,
         removalPolicy: RemovalPolicy.DESTROY,
       },
@@ -88,7 +85,6 @@ export class BlockchainListener extends Construct {
       this,
       'BlockchainListenerVPC',
       {
-        vpcName: 'blockchain-listener-vpc',
         ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
         subnetConfiguration: [
           {
@@ -104,7 +100,6 @@ export class BlockchainListener extends Construct {
       'BlockchainListenerSecurityGroup',
       {
         vpc: this.vpc,
-        securityGroupName: 'blockchain-listener-security-group',
         description: 'Security group used by the Blockchain Listener',
         allowAllOutbound: true,
       },
@@ -116,7 +111,6 @@ export class BlockchainListener extends Construct {
       'BlockchainListenerECSCluster',
       {
         enableFargateCapacityProviders: true,
-        clusterName: 'blockchain-listener-ecs-cluster',
         containerInsights: false,
       },
     );
@@ -129,7 +123,6 @@ export class BlockchainListener extends Construct {
         description: 'IAM Role used by the Blockchain Listener ECS Task Definition to listen to blockchain ' +
               'events and send events to the correct Event Bridge Bus',
         path: '/',
-        roleName: 'blockchain-listener-ecs.iam-role',
       },
     );
     // the IAM role used by the ecs task while starting
@@ -147,7 +140,6 @@ export class BlockchainListener extends Construct {
             'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy',
           ),
         ],
-        roleName: 'blockchain-listener-ecs-task-task-execution.iam-role',
       },
     );
     // the ecs task definition containing cpu architecture, cpu and memory
@@ -163,7 +155,6 @@ export class BlockchainListener extends Construct {
         },
         compatibility: ecs.Compatibility.FARGATE,
         networkMode: ecs.NetworkMode.AWS_VPC,
-        family: 'blockchain-listener-ecs-task-definition',
         taskRole: this.ecsTaskDefinitionIAMRole,
         executionRole: this.ecsTaskDefinitionExecutionIAMRole,
       },
@@ -173,7 +164,6 @@ export class BlockchainListener extends Construct {
       'BlockchainListenerECSTaskDefinitionContainer',
       {
         image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, props.containerImageDirectory)),
-        containerName: 'blockchain-listener-ecs-container',
         environment: props.environmentVariables,
         logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
       },
@@ -183,7 +173,6 @@ export class BlockchainListener extends Construct {
       this,
       'BlockchainListenerECSService',
       {
-        serviceName: 'blockchain-listener-ecs-service',
         cluster: this.ecsCluster,
         taskDefinition: this.ecsTaskDefinition,
         desiredCount: 0,
