@@ -28,8 +28,6 @@ export interface BlockchainListenerProps {
    * @default src/
    */
   readonly containerImageDirectory: string;
-
-  readonly environmentVariables?: any;
 }
 
 export class BlockchainListener extends Construct {
@@ -63,6 +61,10 @@ export class BlockchainListener extends Construct {
    */
   public readonly ecsTaskDefinitionIAMRole: iam.Role;
   private readonly ecsTaskDefinitionExecutionIAMRole: iam.Role;
+  /**
+   * The blockchain listener docker container. It gives you the control to set environment variables, if it's necessary
+   */
+  public readonly blockchainListenerContainer: ecs.ContainerDefinition;
 
   constructor(scope: Construct, id: string, props: BlockchainListenerProps) {
     super(scope, id);
@@ -160,16 +162,13 @@ export class BlockchainListener extends Construct {
       },
     );
     // add the container with the docker image built locally
-    const container = this.ecsTaskDefinition.addContainer(
+    this.blockchainListenerContainer = this.ecsTaskDefinition.addContainer(
       'BlockchainListenerECSTaskDefinitionContainer',
       {
         image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, props.containerImageDirectory)),
         logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
       },
     );
-    for (const [key, value] of Object.entries(props.environmentVariables)) {
-      container.addEnvironment(key, value as string);
-    }
     // create a new ecs service to keep 1 instance always running
     new ecs.FargateService(
       this,

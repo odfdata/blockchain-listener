@@ -85,6 +85,7 @@ Any object.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.blockchainListenerContainer">blockchainListenerContainer</a></code> | <code>aws-cdk-lib.aws_ecs.ContainerDefinition</code> | The blockchain listener docker container. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.ecsLogGroup">ecsLogGroup</a></code> | <code>aws-cdk-lib.aws_logs.LogGroup</code> | The AWS LogGroup the ECS Fargate Task will write logs in. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.ecsTaskDefinitionIAMRole">ecsTaskDefinitionIAMRole</a></code> | <code>aws-cdk-lib.aws_iam.Role</code> | The AWS IAM Role used by the ECS Fargate Task while running. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.eventBus">eventBus</a></code> | <code>aws-cdk-lib.aws_events.EventBus</code> | The AWS EventBus you can use to send events to. |
@@ -102,6 +103,20 @@ public readonly node: Node;
 - *Type:* constructs.Node
 
 The tree node.
+
+---
+
+##### `blockchainListenerContainer`<sup>Required</sup> <a name="blockchainListenerContainer" id="@odfdata/blockchain-listener.BlockchainListener.property.blockchainListenerContainer"></a>
+
+```typescript
+public readonly blockchainListenerContainer: ContainerDefinition;
+```
+
+- *Type:* aws-cdk-lib.aws_ecs.ContainerDefinition
+
+The blockchain listener docker container.
+
+It gives you the control to set environment variables, if it's necessary
 
 ---
 
@@ -190,7 +205,6 @@ const blockchainListenerProps: BlockchainListenerProps = { ... }
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.cidrBlock">cidrBlock</a></code> | <code>string</code> | The range of IP addresses in which the ECS Fargate Task will be put in. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.containerImageDirectory">containerImageDirectory</a></code> | <code>string</code> | The directory in which the Docker file is placed. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.cpuArchitecture">cpuArchitecture</a></code> | <code>aws-cdk-lib.aws_ecs.CpuArchitecture</code> | The CPU architecture you want to use for your Fargate Task. |
-| <code><a href="#@odfdata/blockchain-listener.BlockchainListenerProps.property.environmentVariables">environmentVariables</a></code> | <code>any</code> | *No description.* |
 
 ---
 
@@ -232,16 +246,6 @@ public readonly cpuArchitecture: CpuArchitecture;
 The CPU architecture you want to use for your Fargate Task.
 
 Remember that it needs to be the same one of your building environment (pipeline or local machine)
-
----
-
-##### `environmentVariables`<sup>Optional</sup> <a name="environmentVariables" id="@odfdata/blockchain-listener.BlockchainListenerProps.property.environmentVariables"></a>
-
-```typescript
-public readonly environmentVariables: any;
-```
-
-- *Type:* any
 
 ---
 
