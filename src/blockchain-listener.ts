@@ -175,7 +175,7 @@ export class BlockchainListener extends Construct {
       {
         cluster: this.ecsCluster,
         taskDefinition: this.ecsTaskDefinition,
-        desiredCount: 0,
+        desiredCount: 1,
         platformVersion: ecs.FargatePlatformVersion.LATEST,
         assignPublicIp: true,
         minHealthyPercent: 100,
