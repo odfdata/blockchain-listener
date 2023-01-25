@@ -160,14 +160,16 @@ export class BlockchainListener extends Construct {
       },
     );
     // add the container with the docker image built locally
-    this.ecsTaskDefinition.addContainer(
+    const container = this.ecsTaskDefinition.addContainer(
       'BlockchainListenerECSTaskDefinitionContainer',
       {
         image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, props.containerImageDirectory)),
-        environment: props.environmentVariables,
         logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
       },
     );
+    for (const [key, value] of props.environmentVariables.entries()) {
+      container.addEnvironment(key, value);
+    }
     // create a new ecs service to keep 1 instance always running
     new ecs.FargateService(
       this,
