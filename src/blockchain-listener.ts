@@ -169,6 +169,9 @@ export class BlockchainListener extends Construct {
         logging: ecs.LogDriver.awsLogs({ logGroup: this.ecsLogGroup, streamPrefix: 'ecs' }),
       },
     );
+    this.blockchainListenerContainer.addEnvironment(
+      'BLOCKCHAIN_LISTENER_EVENT_BRIDGE_BUS_ARN', this.eventBus.eventBusArn);
+    this.eventBus.grantPutEventsTo(this.ecsTaskDefinition.taskRole);
     // create a new ecs service to keep 1 instance always running
     new ecs.FargateService(
       this,
