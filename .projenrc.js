@@ -16,7 +16,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
   description: 'The AWS Constructor to create a Blockchain Listener using AWS Fargate and Event Bridge',
   stability: Stability.EXPERIMENTAL,
   gitignore: ['.idea/'],
-  keywords: ['awscdk', 'cdk'],
+  keywords: [
+    'aws',
+    'awscdk',
+    'blockchain',
+    'cdk',
+    'blockchain-listener',
+    'aws-ecs',
+    'aws-event-bridge',
+  ],
   depsUpgrade: false,
 });
 project.synth();
