@@ -19,6 +19,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   majorVersion: 1,
   keywords: [
     'aws',
+    'aws-cdk',
     'awscdk',
     'blockchain',
     'cdk',
