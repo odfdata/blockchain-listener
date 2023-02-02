@@ -61,6 +61,7 @@
   },
   "keywords": [
     "aws",
+    "aws-cdk",
     "aws-ecs",
     "aws-event-bridge",
     "awscdk",
