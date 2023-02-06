@@ -82,11 +82,12 @@ export class BlockchainListener extends Construct {
         removalPolicy: RemovalPolicy.DESTROY,
       },
     );
-
+    // TODO: create vpc optional
     this.vpc = new ec2.Vpc(
       this,
       'BlockchainListenerVPC',
       {
+        natGateways: 0,
         ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
         subnetConfiguration: [
           {
