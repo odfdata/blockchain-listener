@@ -90,12 +90,7 @@ export class BlockchainListener extends Construct {
         natGateways: 0,
         natGatewayProvider: undefined,
         ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
-        subnetConfiguration: [
-          {
-            subnetType: ec2.SubnetType.PUBLIC,
-            name: 'blockchain-listener-subnet',
-          },
-        ],
+        subnetConfiguration: ec2.Vpc.DEFAULT_SUBNETS_NO_NAT,
       },
     );
     this.securityGroup = new ec2.SecurityGroup(
