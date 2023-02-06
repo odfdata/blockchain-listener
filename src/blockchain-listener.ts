@@ -88,12 +88,12 @@ export class BlockchainListener extends Construct {
       'BlockchainListenerVPC',
       {
         natGateways: 0,
+        natGatewayProvider: undefined,
         ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
         subnetConfiguration: [
           {
             subnetType: ec2.SubnetType.PUBLIC,
             name: 'blockchain-listener-subnet',
-            mapPublicIpOnLaunch: true,
           },
         ],
       },
