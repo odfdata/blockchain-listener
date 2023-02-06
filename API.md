@@ -87,7 +87,6 @@ Any object.
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.blockchainListenerContainer">blockchainListenerContainer</a></code> | <code>aws-cdk-lib.aws_ecs.ContainerDefinition</code> | The blockchain listener docker container. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.ecsLogGroup">ecsLogGroup</a></code> | <code>aws-cdk-lib.aws_logs.LogGroup</code> | The AWS LogGroup the ECS Fargate Task will write logs in. |
-| <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.ecsTaskDefinitionIAMRole">ecsTaskDefinitionIAMRole</a></code> | <code>aws-cdk-lib.aws_iam.Role</code> | The AWS IAM Role used by the ECS Fargate Task while running. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.eventBus">eventBus</a></code> | <code>aws-cdk-lib.aws_events.EventBus</code> | The AWS EventBus you can use to send events to. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.securityGroup">securityGroup</a></code> | <code>aws-cdk-lib.aws_ec2.SecurityGroup</code> | The AWS Security Group created to allow connections just from the inside to the outside. |
 | <code><a href="#@odfdata/blockchain-listener.BlockchainListener.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.Vpc</code> | The AWS VPC created for the ECS Cluster. |
@@ -129,21 +128,6 @@ public readonly ecsLogGroup: LogGroup;
 - *Type:* aws-cdk-lib.aws_logs.LogGroup
 
 The AWS LogGroup the ECS Fargate Task will write logs in.
-
----
-
-##### `ecsTaskDefinitionIAMRole`<sup>Required</sup> <a name="ecsTaskDefinitionIAMRole" id="@odfdata/blockchain-listener.BlockchainListener.property.ecsTaskDefinitionIAMRole"></a>
-
-```typescript
-public readonly ecsTaskDefinitionIAMRole: Role;
-```
-
-- *Type:* aws-cdk-lib.aws_iam.Role
-
-The AWS IAM Role used by the ECS Fargate Task while running.
-
-It's the IAM Role you have to update if you need
-to add more permissions to the ECS Fargate Task.
 
 ---
 
