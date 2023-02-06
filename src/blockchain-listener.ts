@@ -90,7 +90,6 @@ export class BlockchainListener extends Construct {
         natGateways: 0,
         natGatewayProvider: undefined,
         ipAddresses: ec2.IpAddresses.cidr(props.cidrBlock),
-        subnetConfiguration: ec2.Vpc.DEFAULT_SUBNETS_NO_NAT,
       },
     );
     this.securityGroup = new ec2.SecurityGroup(
@@ -110,6 +109,7 @@ export class BlockchainListener extends Construct {
       {
         enableFargateCapacityProviders: true,
         containerInsights: false,
+        vpc: this.vpc,
       },
     );
     // the IAM role used by the ecs task while running
