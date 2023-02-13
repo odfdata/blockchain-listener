@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { aws_ec2 as ec2, aws_ecs as ecs, aws_events as events, aws_logs as logs, RemovalPolicy } from 'aws-cdk-lib';
+import { PropagatedTagSource } from 'aws-cdk-lib/aws-ecs';
 import { Construct } from 'constructs';
 
 /**
@@ -150,6 +151,7 @@ export class BlockchainListener extends Construct {
         securityGroups: [
           this.securityGroup,
         ],
+        propagateTags: PropagatedTagSource.SERVICE,
       },
     );
   }
